@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دوني ✨</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, sans-serif; transition: background .4s, color .4s; }
+body { background:#fff8f0; color:#222; overflow-x:hidden; }
+body.dark { background:#12121e; color:#fff; }
+
+.page { display:none; min-height:100vh; padding:70px 20px 100px; text-align:center; animation:fade .5s; }
+.page.active { display:block; }
+@keyframes fade { from{opacity:0; transform:translateY(15px)} to{opacity:1; transform:none} }
+h1 { font-size:32px; margin:15px 0; color:#e75480; }
+body.dark h1 { color:#ff8fab; }
+p { line-height:1.8; font-size:19px; max-width:600px; margin:10px auto; color:#444; }
+body.dark p { color:#e0e0e0; }
+
+/* زر ليل ونهار */
+#themeBtn { position:fixed; top:15px; left:15px; z-index:100; background:#222; color:#ffcc70; border:none; padding:11px 18px; border-radius:30px; font-size:16px; font-weight:bold; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.2); }
+body.dark #themeBtn { background:#ffcc70; color:#000; }
+#doniName { position:fixed; top:15px; right:15px; z-index:100; background:linear-gradient(45deg,#ff8fab,#ffcc70); color:#000; padding:11px 22px; border-radius:30px; font-weight:bold; font-size:18px; }
+
+/* الصور واضحة وفاتحة */
+.img-box { display:inline-block; }
+.img-box img { width:260px; height:260px; object-fit:cover; border-radius:50%; border:5px solid #fff; box-shadow:0 10px 30px rgba(0,0,0,0.15); background:#fff; filter: brightness(1.12) contrast(1.08) saturate(1.15); margin:15px 0; }
+body.dark .img-box img { border-color:#2a2a3d; box-shadow:0 10px 30px rgba(255,255,255,0.1); }
+.gallery { display:flex; gap:15px; justify-content:center; flex-wrap:wrap; }
+.gallery .img-box img { width:150px; height:150px; border-radius:20px; }
+
+button { background:linear-gradient(45deg,#ff8fab,#ffcc70); border:none; padding:14px 28px; border-radius:30px; font-size:18px; font-weight:bold; cursor:pointer; margin:8px; color:#000; }
+.card { background:#fff; padding:22px; border-radius:20px; max-width:520px; margin:15px auto; box-shadow:0 5px 20px rgba(0,0,0,0.08); }
+body.dark .card { background:#1e1e32; box-shadow:0 5px 20px rgba(0,0,0,0.4); }
+input { padding:12px; border-radius:12px; border:1px solid #ddd; width:80%; max-width:350px; margin:10px; text-align:center; font-size:16px; background:#fff; }
+body.dark input { background:#1e1e32; color:#fff; border-color:#333; }
+.nav { position:fixed; bottom:0; left:0; right:0; background:#fff; display:flex; justify-content:space-between; align-items:center; padding:12px 20px; box-shadow:0 -2px 15px rgba(0,0,0,0.08); }
+body.dark .nav { background:#1a1a2e; }
+body.dark .nav span { color:#fff; }
+.heart { font-size:55px; cursor:pointer; }
+.star { color:#ffb703; font-size:35px; cursor:pointer; }
+
+#modal { display:none; position:fixed; inset:0; background:rgba(255,255,255,0.95); z-index:999; justify-content:center; align-items:center; flex-direction:column; }
+body.dark #modal { background:rgba(0,0,0,0.92); }
+#modal.show { display:flex; }
+#modal img { width:90vw; max-width:450px; height:auto; max-height:70vh; border-radius:20px; object-fit:contain; filter: brightness(1.12) contrast(1.08) saturate(1.15); box-shadow:0 15px 40px rgba(0,0,0,0.2); }
+</style>
+</head>
+<body>
+
+<button id="themeBtn" onclick="toggleTheme()">🌙 ليل</button>
+<div id="doniName">دوني 💖</div>
+
+<!-- انت بتضيف صورك هنا في الكود المصدري فقط: 1.png لحد 10.png -->
+
+<div class="page active" id="p1">
+  <h1>أهلا بيك يا دوني ✨</h1>
+  <div class="img-box"><img src="1.png" alt="دوني"></div>
+  <p>عملت ليك المكان ده عشان انتي ما عادية، انتي مميزة شديد.</p>
+  <p>جربي زر الليل والنهار الفوق، شوفي حتبقي أحلى في ياتو وضع.</p>
+  <button onclick="go(2)">ابدأي الرحلة ➡️</button>
+</div>
+
+<div class="page" id="p2">
+  <h1>يا دوني، أول انطباع</h1>
+  <div class="img-box"><img src="2.png" alt="دوني"></div>
+  <p>أول مرة شفتك فيها يا دوني، حسيت انك بنت مختلفة. هادية، واثقة، وبتخلي المكان أحلى.</p>
+  <button onclick="go(3)">اللي بعدو</button>
+</div>
+
+<div class="page" id="p3">
+  <h1>دوني، اضغطي على القلب</h1>
+  <div class="img-box"><img src="3.png" alt="دوني"></div>
+  <div class="heart" onclick="love()">💛</div>
+  <p id="loveText">اضغطي...</p>
+  <button onclick="go(4)">كمّلي</button>
+</div>
+
+<div class="page" id="p4">
+  <h1>ذكرياتنا يا دوني</h1>
+  <div class="gallery">
+    <div class="img-box"><img src="11.png" alt="دوني"></div>
+    <div class="img-box"><img src="12.png" alt="دوني"></div>
+    <div class="img-box"><img src="7.png" alt="دوني"></div>
+  </div>
+  <p>كل صورة هنا بتفكرني بيكي يا دوني، انتي بتخلي الذكريات أحلى.</p>
+  <button onclick="go(5)">اللي بعدو</button>
+</div>
+
+<div class="page" id="p5">
+  <h1>اختبار صغير يا دوني 🎮</h1>
+  <div class="card"><p>شنو أكتر حاجة بتميز دوني؟</p><button onclick="alert('صح! طيبتها ما عندها مثيل ❤️')">طيبتها</button><button onclick="alert('برضو صح!')">ذكاؤها</button><button onclick="alert('دي كمان صح!')">ضحكتها</button></div>
+  <button onclick="go(6)">كمّلي</button>
+</div>
+
+<div class="page" id="p6">
+  <h1>اكتبي اسمك يا دوني</h1>
+  <div class="img-box"><img src="7.png" alt="دوني"></div>
+  <input id="nameInput" placeholder="اكتبي اسمك هنا يا دوني"><br><button onclick="showName()">اعرضي رسالتي</button><p id="nameOut"></p>
+  <button onclick="go(7)">اللي بعدو</button>
+</div>
+
+<div class="page" id="p7">
+  <h1>قيّمي صداقتنا يا دوني ⭐</h1>
+  <div><span class="star" onclick="rate(1)">★</span><span class="star" onclick="rate(2)">★</span><span class="star" onclick="rate(3)">★</span><span class="star" onclick="rate(4)">★</span><span class="star" onclick="rate(5)">★</span></div><p id="rateOut"></p>
+  <button onclick="go(8)">كمّلي</button>
+</div>
+
+<div class="page" id="p8">
+  <h1>صندوق الأمنيات يا دوني</h1>
+  <div class="img-box"><img src="8.png" alt="دوني"></div>
+  <input id="wish" placeholder="اكتبي أمنية لدوني"><br><button onclick="saveWish()">احفظي الأمنية 💌</button><p id="wishOut"></p>
+  <button onclick="go(9)">اللي بعدو</button>
+</div>
+
+<div class="page" id="p9">
+  <h1>رسالة خاصة لدوني</h1>
+  <div class="img-box"><img src="9.png" alt="دوني"></div>
+  <div class="card"><p>يا دوني، انتي من البنات القليلين البخلو الحياة أجمل، وجودك فرق كبير، شكرا انك في حياتي.</p></div>
+  <button onclick="go(10)">آخر صفحة</button>
+</div>
+
+<div class="page" id="p10">
+  <h1>النهاية يا دوني 🎉</h1>
+  <div class="img-box"><img src="10.png" alt="دوني"></div>
+  <p>🎉 🎊 ✨ 💛 ✨ 🎊 🎉</p>
+  <p>يا دوني، دي كانت 10 صفحات، لكن حكايتك لسه ما انتهت، الجاي أحلى!</p>
+  <button onclick="go(1)">ارجعي من الأول 🔄</button>
+</div>
+
+<div class="nav"><button onclick="prev()">⬅️ رجوع</button><span id="counter">1 / 10</span><button onclick="next()">قدام ➡️</button></div>
+
+<div id="modal" onclick="closeModal()"><img id="modalImg" src=""><p style="color:#e75480; margin-top:15px;">اضغطي في اي مكان عشان تقفلي</p></div>
+
+<script>
+let current = 1, traits = ["طيبة القلب 💛","ذكية وهادية 🧠","ضحكتها بتعدل المزاج 😄","واثقة من نفسها 😎","صادقة وما بتلف وتدور ✨","وجودها مريح ❤️"], ti=0;
+function go(n){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('p'+n).classList.add('active'); current=n; document.getElementById('counter').innerText = n+' / 10'; window.scrollTo(0,0); }
+function next(){ if(current<10) go(current+1); }
+function prev(){ if(current>1) go(current-1); }
+function love(){ document.getElementById('loveText').innerText = traits[ti % traits.length]; ti++; }
+function showName(){ let n=document.getElementById('nameInput').value; document.getElementById('nameOut').innerText = n ? "يا "+n+"، انتي بنت مميزة جدا والله!" : "اكتبي اسمك اول يا دوني 😅"; }
+function rate(n){ document.getElementById('rateOut').innerText = "شكرا يا دوني! قيمتي صداقتنا "+n+" من 5 ⭐"; }
+function saveWish(){ let w=document.getElementById('wish').value; document.getElementById('wishOut').innerText = w ? "أمنيتك اتحفظت يا دوني: "+w : "اكتبي أمنية اول يا دوني"; }
+
+// زر ليل ونهار
+function toggleTheme(){
+  let body = document.body;
+  let btn = document.getElementById('themeBtn');
+  body.classList.toggle('dark');
+  if(body.classList.contains('dark')){
+    btn.innerText = "☀️ نهار";
+    localStorage.setItem('doniTheme','dark');
+  } else {
+    btn.innerText = "🌙 ليل";
+    localStorage.setItem('doniTheme','light');
+  }
+}
+// لو كانت مختارة ليل قبل كده، تفتح ليل طوالي
+if(localStorage.getItem('doniTheme') === 'dark'){
+  document.body.classList.add('dark');
+  document.getElementById('themeBtn').innerText = "☀️ نهار";
+}
+
+document.querySelectorAll('.img-box img').forEach(img=>{
+  img.addEventListener('click', ()=>{
+    document.getElementById('modalImg').src = img.src;
+    document.getElementById('modal').classList.add('show');
+  });
+});
+function closeModal(){ document.getElementById('modal').classList.remove('show'); }
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>لـ دوني ❤️</title>
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+body{
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: linear-gradient(180deg, #ffe6ee, #fff5f8);
+  color:#333;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* الهيدر */
+header{
+  text-align:center;
+  padding: clamp(30px, 8vw, 70px) 16px 20px;
+}
+header h1{
+  font-size: clamp(28px, 8vw, 60px);
+  line-height:1.2;
+  color:#e91e63;
+}
+header p{
+  font-size: clamp(14px, 4vw, 20px);
+  margin-top:10px;
+  color:#666;
+  max-width:600px;
+  margin-inline:auto;
+}
+
+/* شبكة الصور الديناميكية - دي أهم حاجة */
+.gallery{
+  display:grid;
+  /* دي بتخلي الصور تتقسم براها حسب حجم الشاشة */
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 45vw), 1fr));
+  gap: clamp(10px, 3vw, 20px);
+  padding: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+.card{
+  background:#fff;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 8px 25px rgba(0,0,0,0.08);
+  transition: transform .3s;
+  aspect-ratio: 1 / 1.15;
+  display:flex;
+  flex-direction:column;
+}
+.card:active{ transform:scale(0.97); }
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover; /* دي بتخلي الصورة تملى الكرت بدون ما تتمط */
+  display:block;
+  flex:1;
+}
+
+/* لو الشاشة كبيرة - لابتوب */
+@media (min-width: 768px){
+  .gallery{
+    grid-template-columns: repeat(3, 1fr);
+    padding: 24px;
+  }
+  .card:hover{ transform: translateY(-5px); }
+}
+/* لو الشاشة كبيرة شديد */
+@media (min-width: 1100px){
+  .gallery{
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* الزر */
+.btn-wrap{
+  text-align:center;
+  padding: 20px 16px 50px;
+}
+button{
+  background:#e91e63;
+  color:#fff;
+  border:none;
+  padding: clamp(12px, 3vw, 16px) clamp(28px, 8vw, 45px);
+  font-size: clamp(16px, 4.5vw, 20px);
+  border-radius: 50px;
+  cursor:pointer;
+  box-shadow:0 10px 20px rgba(233,30,99,.3);
+  width: min(90vw, 320px);
+}
+footer{
+  text-align:center;
+  padding:20px;
+  font-size:14px;
+  color:#999;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>لـ دوني ❤️</h1>
+  <p>عملت ليك الصفحة دي عشان انتي مميزة، كل صورة هنا بتحكي حاجة حلوة عنك</p>
+</header>
+
+<div class="gallery">
+  <div class="card"><img src="1.png" alt="1" loading="lazy"></div>
+  <div class="card"><img src="2.png" alt="2" loading="lazy"></div>
+  <div class="card"><img src="3.png" alt="3" loading="lazy"></div>
+  <div class="card"><img src="4.png" alt="4" loading="lazy"></div>
+  <div class="card"><img src="5.png" alt="5" loading="lazy"></div>
+  <div class="card"><img src="6.png" alt="6" loading="lazy"></div>
+  <div class="card"><img src="7.png" alt="7" loading="lazy"></div>
+  <div class="card"><img src="8.png" alt="8" loading="lazy"></div>
+  <div class="card"><img src="9.png" alt="9" loading="lazy"></div>
+  <div class="card"><img src="10.png" alt="10" loading="lazy"></div>
+</div>
+
+<div class="btn-wrap">
+  <button onclick="alert('دوني انتي الأجمل ❤️')">اضغطي هنا</button>
+</div>
+
+<footer>اتعمل بحب لـ دوني</footer>
+
+</body>
+</html>
